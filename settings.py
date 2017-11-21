@@ -5,11 +5,17 @@ MONGO_URI = "mongodb://admin:admin@ds042527.mlab.com:42527/evodb"
 RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 ITEM_METHODS = ['GET', 'PATCH', 'PUT', 'DELETE']
 
-DOMAIN = {
-    'apps': {
+Apps = {
+        'item_title': 'app',
+        'additional_lookup': {
+            'url': "regex('[0-9]{2}-[0-9]{15}$')",
+            'field': 'userId',
+        },
+        'resource_methods': ['GET', 'POST', 'DELETE'],
         'schema': {
-            'userid': {
+            'userId': {
                 'type': 'string',
+                'regex': "^[0-9]{2}-[0-9]{15}$",
                 'required': True,
                 'unique': True,
             },
@@ -17,7 +23,7 @@ DOMAIN = {
                 'type': 'string',
                 'required': True,
             },
-            'state': {
+            'installed': {
                 'type': 'integer',
                 'allowed': [0, 1],
                 'default': 0,
@@ -25,4 +31,7 @@ DOMAIN = {
             }
         }
     }
+
+DOMAIN = {
+    'apps': Apps,
 }

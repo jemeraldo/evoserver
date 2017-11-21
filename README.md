@@ -1,112 +1,101 @@
 # evoserver
 
-API:
+# API:
 /api/v1/
 
-Endpoint /api/v1/ip
+## Endpoint /api/v1/ip
 
-GET /api/v1/ip
+### GET /api/v1/ip
 Возвращает IP устройства эвотор, связанного с текущим экраном
 
-Header Parameters:
+#### Header Parameters:
 
 Screen-Id: string
 ID экрана
 
-Responses:
+#### Responses:
 200 OK
 {DeviceIP: string}
 
 400
 {error: "error: no such binded device"}
 
-POST /api/v1/ip
+### POST /api/v1/ip
 Задать IP устройства эвотор
 
-Header Parameters:
+#### Header Parameters:
 
-Json Body:
+#### Json Body:
 
 DeviceID: string
 ID устройства эвотор
 DeviceIP: string
 IP
 
-Responses:
+#### Responses:
 200 OK
 
 400
 {error: "error: no such binded device"}
 
-Endpoint /api/v1/apps
+## Endpoint /api/v1/apps
 Установленные приложения
 
-GET /api/v1/apps
+### GET /api/v1/apps
 Получить весь список установленных приложений
 
-Responses:
+#### Responses:
 200 OK
 
-Sample response:
+#### Sample response:
 
+
+### GET /api/v1/apps/<user-id>
+
+#### Responses:
+200 OK
+
+
+#### Sample:
+'''
 {
-    "_items": [
-        {
-            "_created": "Sat, 18 Nov 2017 20:56:57 GMT",
-            "_etag": "4c9ac7737dc2d6eeda46d43ca2fdc7d911ce218f",
-            "_id": "5a109e9a6c269d098878d2de",
-            "_links": {
-                "self": {
-                    "href": "apps/5a109e9a6c269d098878d2de",
-                    "title": "App"
-                }
-            },
-            "_updated": "Sat, 18 Nov 2017 20:56:57 GMT",
-            "state": 0,
-            "timestamp": "66462461124",
-            "userid": "ss-ddd"
-        }
-    ],
+    "_created": "Tue, 21 Nov 2017 12:49:45 GMT",
+    "_etag": "9756c47aea8169dfb6229523ec31bd0b101c7ba3",
+    "_id": "5a1420e96c269d21ecb66168",
     "_links": {
+        "collection": {
+            "href": "apps",
+            "title": "apps"
+        },
         "parent": {
             "href": "/",
             "title": "home"
         },
         "self": {
-            "href": "apps",
-            "title": "apps"
+            "href": "apps/5a1420e96c269d21ecb66168",
+            "title": "app"
         }
     },
-    "_meta": {
-        "max_results": 25,
-        "page": 1,
-        "total": 1
-    }
+    "_updated": "Tue, 21 Nov 2017 12:49:45 GMT",
+    "installed": 1,
+    "timestamp": "11775133513",
+    "userId": "54-995411292457300"
 }
-
-GET /api/v1/apps/<user-id>
-
-Responses:
-200 OK
-
-{
-	state: [0,1] # 0 - приложение установлено, 1 - удалено
-	timestamp: string #дата установки/удаления
-}
+'''
 
 400
 { error: "No such user-id" }
 
-POST /api/v1/apps/event
+### POST /api/v1/apps/event
 Событие установки/удаления
 
-Headers:
+#### Headers:
 Authorization: string
 Content-Type: string # default "application/json"
 Accept: "application/json;charset=UTF-8"
 Accept-Charset: "UTF-8"
 
-Body:
+#### Body:
 
 id: string
 timestamp: string
@@ -116,10 +105,11 @@ data:
 	productId: 	appId (string)
 	userId: userId (string)
 
-Responses:
+#### Responses:
 200 OK
 
-Sample:
+#### Sample:
+'''
 {
   "id": "a99fbf70-6307-4acc-b61c-741ee9eef6c0",
   "timestamp": 1504168645290,
@@ -130,47 +120,48 @@ Sample:
     "userId": "01-000000000000001"
   }
 }
+'''
 
-Endpoint /api/v1/bind
+## Endpoint /api/v1/bind
 Bind screen
 
-GET /api/v1/evotor-binded
+### GET /api/v1/evotor-binded
 
-Headers:
+#### Headers:
 X-Evotor-User-Id: string
 X-Evotor-Device-Id: string
 
-Responses:
+#### Responses:
 200 OK
 { binded: [0,1] } # 1 - binded
 
-GET /api/v1/binding
+### GET /api/v1/binding
 
-Headers:
+#### Headers:
 X-Evotor-User-Id: string
 X-Evotor-Device-Id: string
 
-Responses:
+#### Responses:
 200 OK
 { code: [0-9A-Z]{8} }
 
-POST /api/v1/bind
+### POST /api/v1/bind
 
-Headers:
+#### Headers:
 X-Screen-Id: string
 
-Body:
+#### Body:
 { code: [0-9A-Z]{8} }
 
-Responses:
+#### Responses:
 200 OK
 
-GET /api/v1/unbind
+### GET /api/v1/unbind
 Delete bind
 
-Headers:
+#### Headers:
 X-Evotor-User-Id: string
 X-Evotor-Device-Id: string
 
-Responses:
+#### Responses:
 200 OK
