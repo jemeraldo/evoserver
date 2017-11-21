@@ -56,7 +56,7 @@ IP
 200 OK
 
 
-#### Sample:
+#### Response sample:
 ```
 {
     "_created": "Tue, 21 Nov 2017 12:49:45 GMT",
@@ -108,7 +108,7 @@ data:
 #### Responses:
 200 OK
 
-#### Sample:
+#### Request sample:
 ```
 {
   "id": "a99fbf70-6307-4acc-b61c-741ee9eef6c0",

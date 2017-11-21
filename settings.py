@@ -5,6 +5,11 @@ MONGO_URI = "mongodb://admin:admin@ds042527.mlab.com:42527/evodb"
 RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 ITEM_METHODS = ['GET', 'PATCH', 'PUT', 'DELETE']
 
+IF_MATCH = False
+
+URL_PREFIX = 'api'
+API_VERSION = 'v1'
+
 Apps = {
         'item_title': 'app',
         'additional_lookup': {
