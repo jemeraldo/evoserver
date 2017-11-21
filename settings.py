@@ -1,4 +1,3 @@
-# замените user, password, ds049945.mongolab.com, example на ваши данные доступа к БД.
 MONGO_URI = "mongodb://admin:admin@ds042527.mlab.com:42527/evodb"
 
 # По умолчанию Eve запускает API в режиме "read-only" (т.е. поддерживаются только GET запросы),
