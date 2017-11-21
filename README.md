@@ -57,7 +57,7 @@ IP
 
 
 #### Sample:
-'''
+```
 {
     "_created": "Tue, 21 Nov 2017 12:49:45 GMT",
     "_etag": "9756c47aea8169dfb6229523ec31bd0b101c7ba3",
@@ -81,7 +81,7 @@ IP
     "timestamp": "11775133513",
     "userId": "54-995411292457300"
 }
-'''
+```
 
 400
 { error: "No such user-id" }
@@ -109,7 +109,7 @@ data:
 200 OK
 
 #### Sample:
-'''
+```
 {
   "id": "a99fbf70-6307-4acc-b61c-741ee9eef6c0",
   "timestamp": 1504168645290,
@@ -120,7 +120,7 @@ data:
     "userId": "01-000000000000001"
   }
 }
-'''
+```
 
 ## Endpoint /api/v1/bind
 Bind screen
