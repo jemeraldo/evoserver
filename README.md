@@ -4,7 +4,7 @@ Task list:
 - [ ] GET /api/v1/ip
 - [ ] POST /api/v1/ip
 - [x] GET /api/v1/apps
-- [x] GET /api/v1/apps/<user-id>
+- [x] GET /api/v1/apps/user-id
 - [ ] POST /api/v1/apps/event
 - [ ] GET /api/v1/evotor-binded
 - [x] GET /api/v1/binding
