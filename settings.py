@@ -1,3 +1,7 @@
+
+
+
+
 MONGO_URI = "mongodb://admin:admin@ds042527.mlab.com:42527/evodb"
 
 # По умолчанию Eve запускает API в режиме "read-only" (т.е. поддерживаются только GET запросы),

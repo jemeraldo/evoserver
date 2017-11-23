@@ -126,6 +126,7 @@ data:
 Bind screen
 
 ### GET /api/v1/evotor-binded
+Is screen binded?
 
 #### Headers:
 X-Evotor-User-Id: string
@@ -133,9 +134,11 @@ X-Evotor-Device-Id: string
 
 #### Responses:
 200 OK
+
 { binded: [0,1] } # 1 - binded
 
 ### GET /api/v1/binding
+Initiate binding, get code
 
 #### Headers:
 X-Evotor-User-Id: string
@@ -146,6 +149,7 @@ X-Evotor-Device-Id: string
 { code: [0-9A-Z]{8} }
 
 ### POST /api/v1/bind
+Bind screen
 
 #### Headers:
 X-Screen-Id: string
