@@ -1,15 +1,23 @@
 # evoserver
 
 Task list:
+
 **Bind IP**
+
 - [ ] GET /api/v1/ip
 - [ ] POST /api/v1/ip
+
 **Installed Apps**
+
 - [x] GET /api/v1/apps
 - [x] GET /api/v1/apps/user-id
+
 **Events**
+
 - [ ] POST /api/v1/apps/event
+
 **Binding**
+
 - [ ] GET /api/v1/evotor-binded
 - [x] GET /api/v1/binding
 - [ ] POST /api/v1/bind
