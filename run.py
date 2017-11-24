@@ -14,17 +14,18 @@ server_port = os.environ.get('PORT', 5000)
 
 def add_new_bind(code, deviceid):
     binds = db[DB_BINDS]
-    result = binds.insert_one({'deviceid': deviceid, 'code': code})
+    result = binds.insert_one({BINDS_DEVICEID: deviceid, BINDS_CODE: code})
     return result
 
-def json_response(body, status, **headers):
+def json_response(body, status=200, **headers):
     s = json.dumps(body)
-    resp = app.make_response(s, status, headers)
+    resp = app.make_response((s, status, headers))
+
     resp.headers.set("Content-Type", "Application/json")
     return resp
 
-def json_error(text, status, **headers):
-    return json_response({'error': text}, status, headers)
+def json_error(text, status=400, **headers):
+    return json_response({'error': text}, status, **headers)
 
 def check_headers(*headers):
     for h in headers:
@@ -33,17 +34,18 @@ def check_headers(*headers):
             return h
     return None
 
-def render_code(binds):
+def render_code():
+    binds = db[DB_BINDS]
     symbols = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     random.seed()
     code = ''.join(random.choices(symbols, k=8))
-    item = binds.find_one({'code': code})
+    item = binds.find_one({BINDS_CODE: code})
     while item is not None:
         code =''.join(random.choices(symbols, k=8))
-        item = binds.find_one({'code': code})
+        item = binds.find_one({BINDS_CODE: code})
     return code
 
-@app.route('/api/v1/binding')
+@app.route(ep_binding['url'], methods=ep_binding['methods'])
 def initiate_binding():
     ch = check_headers(X_EVOTOR_DEVICEID, X_EVOTOR_USERID)
     if ch is not None:
@@ -53,14 +55,14 @@ def initiate_binding():
     deviceid = request.headers.get(X_EVOTOR_DEVICEID)
 
     apps = db[DB_APPS]
-    item = apps.find_one({'userId': userid})
+    item = apps.find_one({APPS_USERID: userid})
     if item is None:
         return json_error('No such userid in db', 400)
 
     binds = db[DB_BINDS]
-    item = binds.find_one({'deviceId': deviceid})
+    item = binds.find_one({BINDS_DEVICEID: deviceid})
     if item is not None:
-        return json_response({'code': item['code']}, 200)
+        return json_response({'code': item[BINDS_CODE]}, 200)
     else:
         code = render_code()
         add_new_bind(code, deviceid)

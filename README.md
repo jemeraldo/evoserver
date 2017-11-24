@@ -14,7 +14,7 @@ Task list:
 
 **Events**
 
-- [ ] POST /api/v1/apps/event
+- [ ] POST /api/v1/install-event
 
 **Binding**
 
@@ -110,7 +110,7 @@ IP
 400
 { error: "No such user-id" }
 
-### POST /api/v1/apps/event
+### POST /api/v1/install-event
 Событие установки/удаления
 
 #### Headers:
