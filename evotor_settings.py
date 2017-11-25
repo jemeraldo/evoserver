@@ -13,6 +13,7 @@ BINDS_DEVICEID = 'deviceid'
 BINDS_CODE = 'code'
 BINDS_SCREENID = 'screenid'
 BINDS_IP = 'evotorip'
+BINDS_BINDED = 'binded'
 
 #ENDPOINTS
 
