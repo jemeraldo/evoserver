@@ -20,7 +20,7 @@ Task list:
 
 - [ ] GET /api/v1/evotor-binded
 - [x] GET /api/v1/binding
-- [ ] POST /api/v1/bind
+- [x] POST /api/v1/bind
 - [ ] GET /api/v1/unbind
 
 
