@@ -10,7 +10,7 @@
 
 #### Header Parameters:
 
-Screen-Id: string
+X-Screen-Id: string
 ID экрана
 
 #### Responses:
@@ -18,7 +18,7 @@ ID экрана
 {evotorip: string}
 
 400
-{error: "error: no such binded device"}
+{error: string}
 
 ### POST /api/v1/ip
 Задать IP устройства эвотор
@@ -51,7 +51,7 @@ IP
 #### Sample response:
 
 
-### GET /api/v1/apps/<user-id>
+### GET /api/v1/apps/user-id
 
 #### Responses:
 200 OK
@@ -92,9 +92,13 @@ IP
 
 #### Headers:
 Authorization: string
+
 Content-Type: string # default "application/json"
+
 Accept: "application/json;charset=UTF-8"
+
 Accept-Charset: "UTF-8"
+
 
 #### Body:
 
