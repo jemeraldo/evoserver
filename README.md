@@ -4,8 +4,8 @@ Task list:
 
 **Bind IP**
 
-- [ ] GET /api/v1/ip
-- [ ] POST /api/v1/ip
+- [x] GET /api/v1/ip
+- [x] POST /api/v1/ip
 
 **Installed Apps**
 
@@ -18,10 +18,11 @@ Task list:
 
 **Binding**
 
-- [ ] GET /api/v1/evotor-binded
+- [x] GET /api/v1/evotor-binded
+- [x] GET /api/v1/screen-binded
 - [x] GET /api/v1/binding
 - [x] POST /api/v1/bind
-- [ ] GET /api/v1/unbind
+- [x] POST /api/v1/unbind
 
 
 # API:
@@ -39,7 +40,7 @@ ID экрана
 
 #### Responses:
 200 OK
-{DeviceIP: string}
+{evotorip: string}
 
 400
 {error: "error: no such binded device"}
@@ -48,16 +49,17 @@ ID экрана
 Задать IP устройства эвотор
 
 #### Header Parameters:
+X-Evotor-Device-Id: string
 
 #### Json Body:
 
-DeviceID: string
-ID устройства эвотор
-DeviceIP: string
+evotorip: string
 IP
 
 #### Responses:
 200 OK
+
+{'status': 'ok'}
 
 400
 {error: "error: no such binded device"}
@@ -146,20 +148,29 @@ data:
 }
 ```
 
-## Endpoint /api/v1/bind
+## Endpoints /api/v1/binding /api/v1/bind /api/v1/evotor-binded /api/v1/screen-binded /api/v1/unbind
 Bind screen
 
 ### GET /api/v1/evotor-binded
-Is screen binded?
 
 #### Headers:
-X-Evotor-User-Id: string
 X-Evotor-Device-Id: string
 
 #### Responses:
 200 OK
 
-{ binded: [0,1] } # 1 - binded
+{ evotor-binded: boolean}
+
+### GET /api/v1/screen-binded
+Is screen binded?
+
+#### Headers:
+X-Screen-Id: string
+
+#### Responses:
+200 OK
+
+{ screen-binded: boolean}
 
 ### GET /api/v1/binding
 Initiate binding, get code
@@ -184,12 +195,17 @@ X-Screen-Id: string
 #### Responses:
 200 OK
 
-### GET /api/v1/unbind
+{ evotor-binded: boolean, evotorip: string, deviceid: string }
+
+### POST /api/v1/unbind
 Delete bind
 
 #### Headers:
-X-Evotor-User-Id: string
-X-Evotor-Device-Id: string
+
+#### Body:
+{ code: [0-9A-Z]{8} }
 
 #### Responses:
 200 OK
+
+{screen-binded: boolean }
