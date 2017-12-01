@@ -21,3 +21,19 @@ Task list:
 - [x] GET /api/v1/binding
 - [x] POST /api/v1/bind
 - [x] POST /api/v1/unbind
+
+**Settings**
+
+- [ ] GET, POST /api/v1/settings
+- [ ] GET, PATCH, DELETE /api/v1/settings/user-id
+
+**Recomendations**
+
+- [ ] GET, POST /api/v1/recs
+- [ ] GET, PATCH, DELETE /api/v1/recs/id
+
+**Slides**
+
+- [ ] GET, POST /api/v1/ad-slides
+- [ ] GET, PATCH, DELETE /api/v1/ad-slides/user-id
+

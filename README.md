@@ -28,7 +28,7 @@ X-Evotor-Device-Id: string
 
 #### Json Body:
 
-evotorip: string
+{evotorip: string}
 IP
 
 #### Responses:
@@ -188,3 +188,75 @@ Delete bind
 200 OK
 
 {screen-binded: boolean }
+
+## Endpoint /api/v1/settings
+Настройки пользователя
+
+### GET /api/v1/settings
+Все записи настроек
+
+### GET /api/v1/settings/user-id
+Настройки пользователя user-id
+
+#### Sample
+```
+C:\Users\jem>http :5000/api/v1/settings/54-995411292457300
+HTTP/1.0 200 OK
+Content-Length: 692
+Content-Type: application/json
+Date: Fri, 01 Dec 2017 11:49:53 GMT
+Last-Modified: Fri, 01 Dec 2017 11:44:19 GMT
+Server: Eve/0.7.4 Werkzeug/0.11.15 Python/3.6.3
+
+{
+    "_created": "Fri, 01 Dec 2017 11:44:19 GMT",
+    "_id": "5a2140936c269d036ce8b5f5",
+    "_links": {
+        "collection": {
+            "href": "settings",
+            "title": "settings"
+        },
+        "parent": {
+            "href": "/",
+            "title": "home"
+        },
+        "self": {
+            "href": "settings/5a2140936c269d036ce8b5f5",
+            "title": "user-settings"
+        }
+    },
+    "_updated": "Fri, 01 Dec 2017 11:44:19 GMT",
+    "adType": "slideshow",
+    "adVideoUrl": "https://www.youtube.com/watch?v=sQZKiDIzft8&t=0s",
+    "feedbackType": "stars",
+    "reportTelegramUserid": "@Avtyu",
+    "ssDelay": 5,
+    "text": "Р РµРєР»Р°РјРЅС‹Р№ С‚РµРєСЃС‚",
+    "userId": "54-995411292457300"
+}
+```
+
+### POST /api/v1/settings
+Создать настройки
+
+#### Body
+{ userId: string, adType: string, adVideoUrl: string, feedbackType: string, reportTelegramUserid: string, 
+  ssDelay: integer, text: string }
+  
+### GET, PATCH, DELETE /api/v1/settings/user-id
+Получить, изменить, удалить
+
+## Endpoint /api/v1/feedback
+Отправка обратной связи менеджеру магазина
+
+### POST /api/v1/feedback
+
+#### headers
+X-Screen-Id: string
+
+#### Body
+{ cashierId: string, rating: [1-5]string, timestamp: string} # from 1 to 5
+
+
+#### Responses
+200 OK

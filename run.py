@@ -1,65 +1,18 @@
+# coding: utf8
+
 import json, random, os, sys
+import settings, tbot
 from eve import Eve
 from flask import request
-import settings
 from pymongo import MongoClient, errors as mongo_errors
 from evotor_settings import *
+from evodb import *
 
 
 app = Eve()
 client = MongoClient(settings.MONGO_URI)
 db = client[EVODB_NAME]
 server_port = os.environ.get('PORT', 5000)
-
-
-def add_new_bind(deviceid, ip=''):
-    '''Returns inserted or existing item'''
-    binds = db[DB_BINDS]
-    item = binds.find_one({BINDS_DEVICEID: deviceid})
-    if item:
-        return item
-    else:
-        code = render_code()
-        result = binds.insert_one({BINDS_DEVICEID: deviceid, BINDS_CODE: code, BINDS_IP: ip})
-        return result
-
-
-def set_bind(code, screenid):
-    binds = db[DB_BINDS]
-    binds.update_one({BINDS_CODE: code}, {'$set': {BINDS_SCREENID: screenid}})
-    result = binds.find_one({BINDS_CODE: code})
-    return result
-
-def unbind_screen(code):
-    binds = db[DB_BINDS]
-    binds.update_one({BINDS_CODE: code}, {'$set':  {BINDS_SCREENID: ''}})
-    return binds.find_one({BINDS_CODE: code})
-
-def is_device_binded(deviceid):
-    binds = db[DB_BINDS]
-    item = binds.find_one({BINDS_DEVICEID: deviceid})
-    if item and BINDS_SCREENID in item:
-        return bool(item[BINDS_SCREENID])
-    else:
-        return False
-
-def is_screen_binded(screenid):
-    binds = db[DB_BINDS]
-    item = binds.find_one({BINDS_SCREENID: screenid})
-    return bool(item)
-
-def set_ip(deviceid, ip):
-    binds = db[DB_BINDS]
-    binds.update_one({BINDS_DEVICEID: deviceid}, {'$set': {BINDS_IP: ip}})
-    return True
-
-def get_ip(screenid):
-    binds = db[DB_BINDS]
-    item = binds.find_one({BINDS_SCREENID: screenid})
-    if item:
-        return item[BINDS_IP]
-    else:
-        return None
 
 def json_response(body, status=200, **headers):
     s = json.dumps(body)
@@ -88,16 +41,7 @@ def check_data(*datafields):
             return df
     return None
 
-def render_code():
-    binds = db[DB_BINDS]
-    symbols = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    random.seed()
-    code = ''.join(random.choices(symbols, k=8))
-    item = binds.find_one({BINDS_CODE: code})
-    while item is not None:
-        code =''.join(random.choices(symbols, k=8))
-        item = binds.find_one({BINDS_CODE: code})
-    return code
+
 
 @app.route(ep_binding['url'], methods=ep_binding['methods'])
 def initiate_binding():
@@ -216,6 +160,31 @@ def setgetip():
             return json_response({BINDS_IP: ip}, 200)
         else:
             return json_error('Screen has not binded to any evotor device')
+
+@app.route(ep_feedback['url'], methods=ep_feedback['methods'])
+def post_feedback():
+    ch = check_headers(X_SCREENID)
+    if ch:
+        return json_error('No header ' + X_SCREENID + ' provided')
+    screenid = request.headers.get(X_SCREENID)
+
+    ch = check_data(CASHIERS_ID, RATES_RATING, TIMESTAMP)
+    if ch:
+        return json_error('No field "' + ch + '" provided')
+    cid = request.headers.get(CASHIERS_ID)
+    rating = request.headers.get(RATES_RATING)
+    timestamp = request.headers.get(TIMESTAMP)
+    cashierName = db[DB_CASHIERS].find_one({CASHIERS_ID: cid})[CASHIERS_NAME]
+
+    try:
+        add_feedback(cid, rating, timestamp)
+        tuid = get_settings_telegramUserId(cid)
+        tbot.send_feedback(tuid, cashierName, rating)
+    except Exception:
+        print(Exception)
+        return json_error('Error while post feedback')
+
+    return json_response({'status': 'ok'})
 
 
 do_test = True

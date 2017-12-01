@@ -1,0 +1,87 @@
+# coding: utf8
+import settings
+import random
+from pymongo import MongoClient
+from evotor_settings import *
+
+client = MongoClient(settings.MONGO_URI)
+db = client[EVODB_NAME]
+
+def render_code():
+    binds = db[DB_BINDS]
+    symbols = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    random.seed()
+    code = ''.join(random.choices(symbols, k=8))
+    item = binds.find_one({BINDS_CODE: code})
+    while item is not None:
+        code =''.join(random.choices(symbols, k=8))
+        item = binds.find_one({BINDS_CODE: code})
+    return code
+
+def add_new_bind(deviceid, ip=''):
+    '''Returns inserted or existing item'''
+    binds = db[DB_BINDS]
+    item = binds.find_one({BINDS_DEVICEID: deviceid})
+    if item:
+        return item
+    else:
+        code = render_code()
+        result = binds.insert_one({BINDS_DEVICEID: deviceid, BINDS_CODE: code, BINDS_IP: ip})
+        return result
+
+
+def set_bind(code, screenid):
+    binds = db[DB_BINDS]
+    binds.update_one({BINDS_CODE: code}, {'$set': {BINDS_SCREENID: screenid}})
+    result = binds.find_one({BINDS_CODE: code})
+    return result
+
+def unbind_screen(code):
+    binds = db[DB_BINDS]
+    binds.update_one({BINDS_CODE: code}, {'$set':  {BINDS_SCREENID: ''}})
+    return binds.find_one({BINDS_CODE: code})
+
+def is_device_binded(deviceid):
+    binds = db[DB_BINDS]
+    item = binds.find_one({BINDS_DEVICEID: deviceid})
+    if item and BINDS_SCREENID in item:
+        return bool(item[BINDS_SCREENID])
+    else:
+        return False
+
+
+def is_screen_binded(screenid):
+    binds = db[DB_BINDS]
+    item = binds.find_one({BINDS_SCREENID: screenid})
+    return bool(item)
+
+def set_ip(deviceid, ip):
+    binds = db[DB_BINDS]
+    binds.update_one({BINDS_DEVICEID: deviceid}, {'$set': {BINDS_IP: ip}})
+    return True
+
+def get_ip(screenid):
+    binds = db[DB_BINDS]
+    item = binds.find_one({BINDS_SCREENID: screenid})
+    if item:
+        return item[BINDS_IP]
+    else:
+        return None
+
+def add_feedback(cid, rating, timestamp):
+    rates = db[DB_RATES]
+    result = rates.insert_one({CASHIERS_ID: cid, RATES_RATING: rating, TIMESTAMP: timestamp})
+    return result
+
+def get_settings_telegramUserId(cashierId):
+    cashiers = db[DB_CASHIERS]
+    userid = cashiers.find_one({CASHIERS_ID: cashierId})[APPS_USERID]
+    if not userid:
+        return None
+    settings = db[DB_SETTINGS]
+    item = settings.find_one({APPS_USERID: userid})
+    if not item:
+        return None
+    return item[SETTINGS_TELEGRAMUSERID]
+
+
