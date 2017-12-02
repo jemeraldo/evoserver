@@ -1,6 +1,7 @@
 # coding: utf8
 from evotor_settings import *
 
+
 MONGO_URI = "mongodb://admin:admin@ds042527.mlab.com:42527/evodb"
 
 
@@ -14,7 +15,7 @@ IF_MATCH = False
 URL_PREFIX = 'api'
 API_VERSION = 'v1'
 
-from evodb import render_code
+
 
 Apps = {
     'item_title': 'app',
@@ -127,7 +128,7 @@ Recs = {
         },
         'text': {
             'type': 'string',
-            'default': render_code(8)
+            'default': 'рекламный текст'
         }
     }
 }
