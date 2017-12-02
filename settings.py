@@ -3,6 +3,7 @@ from evotor_settings import *
 
 MONGO_URI = "mongodb://admin:admin@ds042527.mlab.com:42527/evodb"
 
+
 # По умолчанию Eve запускает API в режиме "read-only" (т.е. поддерживаются только GET запросы),
 # мы включаем поддержку методов POST, PUT, PATCH, DELETE.
 RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
@@ -12,6 +13,8 @@ IF_MATCH = False
 
 URL_PREFIX = 'api'
 API_VERSION = 'v1'
+
+from evodb import render_code
 
 Apps = {
     'item_title': 'app',
@@ -84,6 +87,12 @@ Settings = {
         'reportTelegramUserid': {
             'type': 'string',
             'default': ''
+        },
+        'telegramCode': {
+            'type': 'string',
+            'unique': True,
+            'required': True,
+            'default': ''
         }
     }
 }
@@ -118,7 +127,7 @@ Recs = {
         },
         'text': {
             'type': 'string',
-            'default': ''
+            'default': render_code(8)
         }
     }
 }

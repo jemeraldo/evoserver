@@ -36,6 +36,8 @@ RATES_RATING = 'rating'
 TIMESTAMP = 'timestamp'
 
 SETTINGS_TELEGRAMUSERID = 'reportTelegramUserid'
+SETTINGS_TCODE = 'telegramCode'
+SETTINGS_TCHATID = 'tchat_id'
 
 #ENDPOINTS
 
