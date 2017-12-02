@@ -48,6 +48,28 @@ Apps = {
     }
 }
 
+Cashiers = {
+    'item_title': 'cashier',
+    'resource_methods': ['GET', 'POST'],
+    'item_methods': ['GET', 'PATCH', 'DELETE'],
+    'schema': {
+        'userId': {
+            'type': 'string',
+            'required': True,
+            'regex': "^[0-9]{2}-[0-9]{15}$",
+        },
+        CASHIERS_ID: {
+            'type': 'string',
+            'required': True,
+            'unique': True
+        },
+        CASHIERS_NAME: {
+            'type': 'string',
+            'required': True
+        }
+    }
+}
+
 Settings = {
     'item_title': 'user-settings',
     'additional_lookup': {
@@ -174,5 +196,6 @@ DOMAIN = {
     DB_SETTINGS: Settings,
     DB_RECS: Recs,
     DB_SLIDES: Slides,
+    DB_CASHIERS: Cashiers,
     'test-medias': testmedias,
 }

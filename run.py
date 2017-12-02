@@ -212,11 +212,12 @@ def post_feedback():
     rating = request.headers.get(RATES_RATING)
     timestamp = request.headers.get(TIMESTAMP)
     cashierName = db[DB_CASHIERS].find_one({CASHIERS_ID: cid})[CASHIERS_NAME]
+    userid = db[DB_CASHIERS].find_one({CASHIERS_ID: cid})[APPS_USERID]
 
     try:
         add_feedback(cid, rating, timestamp)
-        tuid = get_settings_telegramUserId(cid)
-        tbot.send_feedback(tuid, cashierName, rating)
+        chat_id = get_settings_telegram_chat_id(userid)
+        tbot.send_feedback(chat_id, cashierName, rating)
     except Exception:
         print(Exception)
         return json_error('Error while post feedback')

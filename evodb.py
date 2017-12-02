@@ -99,6 +99,14 @@ def add_feedback(cid, rating, timestamp):
     result = rates.insert_one({CASHIERS_ID: cid, RATES_RATING: rating, TIMESTAMP: timestamp})
     return result
 
+def get_settings_telegram_chat_id(userId):
+    settings = db[DB_SETTINGS]
+    item = settings.find_one({APPS_USERID: userId})
+    if item:
+        return item[SETTINGS_TCHATID]
+    else:
+        return None
+
 def get_settings_telegramUserId(cashierId):
     cashiers = db[DB_CASHIERS]
     userid = cashiers.find_one({CASHIERS_ID: cashierId})[APPS_USERID]
