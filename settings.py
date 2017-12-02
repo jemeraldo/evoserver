@@ -140,6 +140,9 @@ Binds = {
         },
         BINDS_IP: {
             'type': 'string'
+        },
+        APPS_USERID: {
+            'type': 'string'
         }
     }
 }

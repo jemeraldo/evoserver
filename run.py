@@ -86,11 +86,6 @@ def initiate_binding():
     userid = request.headers.get(X_EVOTOR_USERID)
     deviceid = request.headers.get(X_EVOTOR_DEVICEID)
 
-    #apps = db[DB_APPS]
-    #item = apps.find_one({APPS_USERID: userid})
-    #if item is None:
-    #    return json_error('No such userid in db')
-
     try:
         result = add_new_bind(deviceid, userid)
         return json_response({BINDS_CODE: result[BINDS_CODE]}, 200)
