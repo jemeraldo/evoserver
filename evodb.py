@@ -55,10 +55,10 @@ def set_bind(code, screenid):
     result = binds.find_one({BINDS_CODE: code})
     return result
 
-def unbind_screen(code):
+def unbind_screen(deviceid):
     binds = db[DB_BINDS]
-    binds.update_one({BINDS_CODE: code}, {'$set':  {BINDS_SCREENID: ''}})
-    return binds.find_one({BINDS_CODE: code})
+    binds.update_one({BINDS_DEVICEID: deviceid}, {'$set':  {BINDS_SCREENID: ''}})
+    return binds.find_one({BINDS_DEVICEID: deviceid})
 
 def is_device_binded(deviceid):
     binds = db[DB_BINDS]

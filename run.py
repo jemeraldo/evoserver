@@ -8,11 +8,18 @@ from pymongo import MongoClient, errors as mongo_errors
 from evotor_settings import *
 from evodb import *
 
+debug_mode = True
+do_test = True
 
 app = Eve()
 client = MongoClient(settings.MONGO_URI)
 db = client[EVODB_NAME]
 server_port = os.environ.get('PORT', 5000)
+
+def print_debug_info():
+    if debug_mode:
+        print(request.headers)
+        print(request.data)
 
 def json_response(body, status=200, **headers):
     s = json.dumps(body)
@@ -41,10 +48,11 @@ def check_data(*datafields):
             return df
     return None
 
+'''
 @app.route(ep_install_event['url'], methods=ep_install_event['methods'])
 def install_event():
+    print_debug_info()
     data = json.loads(request.data)
-    print(data)
     userid = data['data'][APPS_USERID]
     installed = 1 if data['type'] == 'ApplicationInstalled' else 0
     timestamp = data[TIMESTAMP]
@@ -52,9 +60,11 @@ def install_event():
         return json_response({'status': 'ok'}, 200)
 
     return json_error('error')
+'''
 
 @app.route(ep_token['url'], methods=ep_token['methods'])
 def token_event():
+    print_debug_info()
     data = json.loads(request.data)
     token = data[APPS_TOKEN]
     userid = data[APPS_USERID]
@@ -63,8 +73,8 @@ def token_event():
 
 @app.route(ep_binding['url'], methods=ep_binding['methods'])
 def initiate_binding():
-    print(request.headers)
-    print(request.data)
+    print_debug_info()
+
     ch = check_headers(X_EVOTOR_DEVICEID, X_EVOTOR_USERID)
     if ch is not None:
         return json_error('No header ' + ch + ' provided')
@@ -86,6 +96,7 @@ def initiate_binding():
 
 @app.route(ep_bind['url'], methods=ep_bind['methods'])
 def bind_screen():
+    print_debug_info()
     ch = check_headers(X_SCREENID)
     if ch is not None:
         return json_error('No header ' + ch + ' provided')
@@ -113,6 +124,7 @@ def bind_screen():
 
 @app.route(ep_evotor_binded['url'], methods=ep_evotor_binded['methods'])
 def evotor_binded():
+    print_debug_info()
     ch = check_headers(X_EVOTOR_DEVICEID)
     if ch:
         return json_error('No header ' + X_EVOTOR_DEVICEID + ' provided')
@@ -123,6 +135,7 @@ def evotor_binded():
 
 @app.route(ep_screen_binded['url'], methods=ep_screen_binded['methods'])
 def screen_binded():
+    print_debug_info()
     ch = check_headers(X_SCREENID)
     if ch:
         return json_error('No header ' + X_SCREENID + ' provided')
@@ -132,21 +145,24 @@ def screen_binded():
 
 @app.route(ep_unbind['url'], methods=ep_unbind['methods'])
 def unbind():
-    ch = check_data(BINDS_CODE)
-    if ch is not None:
-        return json_error('No field "' + ch + '" provided')
-    code = json.loads(request.data)[BINDS_CODE]
-    item = db[DB_BINDS].find_one({BINDS_CODE: code})
+    print_debug_info()
+    ch = check_headers(X_EVOTOR_DEVICEID)
+    if ch:
+        return json_error('No header ' + X_EVOTOR_DEVICEID + ' provided')
+    deviceid = request.headers.get(X_EVOTOR_DEVICEID)
+
+    item = db[DB_BINDS].find_one({BINDS_DEVICEID: deviceid})
     if not item:
         return json_error('No such bind in database')
     try:
-        unbind_screen(code)
+        unbind_screen(deviceid)
         return json_response({BINDS_SCREEN_BINDED: False})
     except Exception as e:
         return json_error('Error while unbinding')
 
 @app.route(ep_ip['url'], methods=ep_ip['methods'])
 def setgetip():
+    print_debug_info()
     if request.method == 'POST':
         ch = check_headers(X_EVOTOR_DEVICEID)
         if ch:
@@ -183,6 +199,7 @@ def setgetip():
 
 @app.route(ep_feedback['url'], methods=ep_feedback['methods'])
 def post_feedback():
+    print_debug_info()
     ch = check_headers(X_SCREENID)
     if ch:
         return json_error('No header ' + X_SCREENID + ' provided')
@@ -207,7 +224,7 @@ def post_feedback():
     return json_response({'status': 'ok'})
 
 
-do_test = True
+
 def run_tests():
     add_new_bind('ev-99122331')
     add_new_bind('ev-00011233')
