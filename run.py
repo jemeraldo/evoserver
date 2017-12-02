@@ -2,7 +2,7 @@
 import json, random, os, sys
 import settings
 from eve import Eve
-from flask import request
+from flask import request, render_template
 from pymongo import MongoClient, errors as mongo_errors
 from evotor_settings import *
 from evodb import *
@@ -10,7 +10,7 @@ import tbot
 from bson.json_util import dumps
 
 debug_mode = True
-do_test = True
+do_test = False
 
 app = Eve()
 client = MongoClient(settings.MONGO_URI)
@@ -246,6 +246,17 @@ def screen_settings():
     return dumps(item)
 
 
+@app.route('/user-settings', methods=['GET', 'POST'])
+def user_settings():
+    if request.method == 'GET':
+        userid = request.args.get(APPS_USERID)
+        if not userid:
+            return 'Wait for url parameter: userId'
+        item = db[DB_SETTINGS].find_one({APPS_USERID: userid})
+        if not item:
+            return 'Can\'t find settings for ' + userid
+        return render_template('settings.html', item=item)
+
 def run_tests():
     add_new_bind('ev-99122331', '99-945749584759345')
     add_new_bind('ev-00011233', '99-945749584759315')
@@ -274,5 +285,5 @@ if __name__ == '__main__':
     init_db()
     if do_test:
         run_tests()
-    app.run(host='0.0.0.0', port=server_port)
+    app.run(host='0.0.0.0', port=server_port, debug=True)
     tbot.updater.stop()

@@ -1,13 +1,20 @@
-import requests
+from flask import Flask
 
-f = open('test.jpg', 'rb')
-image = f.read()
+from flask import Flask, request, render_template
 
-data = {
-    'userId': '54-995411292457300',
-    'image': image,
-}
-r = requests.post('http://127.0.0.1:5000/api/v1/slides', data=data)
+app = Flask(__name__)
 
-print(r)
+
+@app.route("/")
+def hello():
+    return render_template('settings.html')
+
+
+@app.route("/echo", methods=['POST'])
+def echo():
+    return "You said: " + request.form['text']
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
