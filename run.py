@@ -65,11 +65,15 @@ def install_event():
 @app.route(ep_token['url'], methods=ep_token['methods'])
 def token_event():
     print_debug_info()
-    data = json.loads(request.data)
-    token = data[APPS_TOKEN]
-    userid = data[APPS_USERID]
-    set_token(userid, token)
-    return json_response({'status': 'ok'}, 200)
+    try:
+        data = json.loads(request.data)
+        token = data[APPS_TOKEN]
+        userid = data[APPS_USERID]
+        set_token(userid, token)
+        return json_response({'status': 'ok'}, 200)
+    except Exception:
+        print(token, userid)
+        return json_response('error while getting token')
 
 @app.route(ep_binding['url'], methods=ep_binding['methods'])
 def initiate_binding():
