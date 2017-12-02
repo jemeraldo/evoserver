@@ -9,10 +9,10 @@ db = client[EVODB_NAME]
 
 def set_user_telegram_chat_id(tcode, chat_id):
     item = db[DB_SETTINGS].find_one({SETTINGS_TCODE: tcode})
-    print(item)
     if not item:
         return None
     res = db[DB_SETTINGS].update_one({SETTINGS_TCODE: tcode}, {'$set': {SETTINGS_TCHATID: chat_id}}, upsert=True)
+    return res
 
 def set_token(userId, token):
     item = db[DB_APPS].find_one({APPS_USERID: userId})

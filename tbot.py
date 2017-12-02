@@ -19,7 +19,6 @@ def start(bot, update):
 
 def register(bot, update):
     result = re.match(r'/code ([0-9A-Z]+$)', update.message.text)
-    print(result.group(1))
     if len(result.groups()) < 1:
         bot.send_message(chat_id=update.message.chat_id, text=r'Format: /code <code>')
         return None
