@@ -81,14 +81,14 @@ def is_screen_binded(screenid):
     item = binds.find_one({BINDS_SCREENID: screenid})
     return bool(item)
 
-def set_ip(deviceid, ip):
+def set_ip(screenid, ip):
     binds = db[DB_BINDS]
-    binds.update_one({BINDS_DEVICEID: deviceid}, {'$set': {BINDS_IP: ip}})
-    return True
+    return binds.update_one({BINDS_SCREENID: screenid}, {'$set': {BINDS_IP: ip}}, upsert=True)
 
-def get_ip(screenid):
+
+def get_ip(deviceid):
     binds = db[DB_BINDS]
-    item = binds.find_one({BINDS_SCREENID: screenid})
+    item = binds.find_one({BINDS_DEVICEID: deviceid})
     if item:
         return item[BINDS_IP]
     else:

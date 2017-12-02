@@ -124,6 +124,26 @@ Settings = {
     }
 }
 
+Binds = {
+    'item_title': 'bind_item',
+    'resource_methods': ['GET'],
+    'item_methods': ['GET'],
+    'schema': {
+        BINDS_DEVICEID: {
+            'type': 'string'
+        },
+        BINDS_SCREENID: {
+            'type': 'string'
+        },
+        BINDS_CODE: {
+            'type': 'string'
+        },
+        BINDS_IP: {
+            'type': 'string'
+        }
+    }
+}
+
 Recs = {
     'item_title': 'rec',
     'resource_methods': ['GET', 'POST'],
@@ -197,5 +217,6 @@ DOMAIN = {
     DB_RECS: Recs,
     DB_SLIDES: Slides,
     DB_CASHIERS: Cashiers,
+    DB_BINDS: Binds,
     'test-medias': testmedias,
 }

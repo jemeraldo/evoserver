@@ -138,7 +138,7 @@ X-Evotor-Device-Id: string
 #### Responses:
 200 OK
 
-{ evotor-binded: boolean}
+{ binded: boolean}
 
 ### GET /api/v1/screen-binded
 Is screen binded?
@@ -149,14 +149,14 @@ X-Screen-Id: string
 #### Responses:
 200 OK
 
-{ screen-binded: boolean}
+{ binded: boolean}
 
 ### GET /api/v1/binding
 Initiate binding, get code
 
 #### Headers:
 X-Evotor-User-Id: string
-X-Evotor-Device-Id: string
+X-Evotor-Device-Uuid: string
 
 #### Responses:
 200 OK
@@ -174,20 +174,21 @@ X-Screen-Id: string
 #### Responses:
 200 OK
 
-{ evotor-binded: boolean, evotorip: string, deviceid: string }
+{ binded: boolean, evotorip: string, deviceid: string }
 
 ### POST /api/v1/unbind
 Delete bind
 
 #### Headers:
 
+X-Evotor-Device-Uuid: string
+
 #### Body:
-{ code: [0-9A-Z]{8} }
 
 #### Responses:
 200 OK
 
-{screen-binded: boolean }
+{binded: boolean }
 
 ## Endpoint /api/v1/settings
 Настройки пользователя

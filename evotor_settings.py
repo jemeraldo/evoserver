@@ -25,7 +25,7 @@ APPS_TOKEN = 'token'
 BINDS_DEVICEID = 'deviceid'
 BINDS_CODE = 'code'
 BINDS_SCREENID = 'screenid'
-BINDS_IP = 'evotorip'
+BINDS_IP = 'ip'
 EVOTOR_BINDED = 'binded'
 SCREEN_BINDED = 'binded'
 

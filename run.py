@@ -164,33 +164,33 @@ def unbind():
 def setgetip():
     print_debug_info()
     if request.method == 'POST':
-        ch = check_headers(X_EVOTOR_DEVICEID)
+        ch = check_headers(X_SCREENID)
         if ch:
-            return json_error('No header ' + X_EVOTOR_DEVICEID + ' provided')
-        deviceid = request.headers.get(X_EVOTOR_DEVICEID)
+            return json_error('No header ' + X_SCREENID + ' provided')
+        screenid = request.headers.get(X_SCREENID)
         ch = check_data(BINDS_IP)
         if ch:
             return json_error('No field "' + ch + '" provided')
         ip = json.loads(request.data)[BINDS_IP]
 
-        item = db[DB_BINDS].find_one({BINDS_DEVICEID: deviceid})
+        item = db[DB_BINDS].find_one({BINDS_SCREENID: screenid})
         if not item:
-            return json_error('No such device in database')
+            return json_error('No such screen in database')
         try:
-            if set_ip(deviceid, ip):
+            if set_ip(screenid, ip):
                 return json_response({'status': 'ok'})
         except Exception as e:
             return json_error('error while setting ip')
     if request.method == 'GET':
-        ch = check_headers(X_SCREENID)
+        ch = check_headers(X_EVOTOR_DEVICEID)
         if ch:
-            return json_error('No header ' + X_SCREENID + ' provided')
-        screenid = request.headers.get(X_SCREENID)
-        item = db[DB_BINDS].find_one({BINDS_SCREENID: screenid})
+            return json_error('No header ' + X_EVOTOR_DEVICEID + ' provided')
+        deviceid = request.headers.get(X_EVOTOR_DEVICEID)
+        item = db[DB_BINDS].find_one({BINDS_DEVICEID: deviceid})
         if not item:
             return json_error('No such screen in binds')
 
-        ip = get_ip(screenid)
+        ip = get_ip(deviceid)
 
         if ip:
             return json_response({BINDS_IP: ip}, 200)
