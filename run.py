@@ -119,7 +119,7 @@ def bind_screen():
 
     return json_response(
         {
-            BINDS_EVOTOR_BINDED: True, BINDS_IP: item[BINDS_IP], BINDS_DEVICEID: item[BINDS_DEVICEID]
+            EVOTOR_BINDED: True, BINDS_IP: item[BINDS_IP], BINDS_DEVICEID: item[BINDS_DEVICEID]
         }, 200)
 
 @app.route(ep_evotor_binded['url'], methods=ep_evotor_binded['methods'])
@@ -130,7 +130,7 @@ def evotor_binded():
         return json_error('No header ' + X_EVOTOR_DEVICEID + ' provided')
 
     deviceid = request.headers.get(X_EVOTOR_DEVICEID)
-    return json_response({BINDS_EVOTOR_BINDED: is_device_binded(deviceid)})
+    return json_response({EVOTOR_BINDED: is_device_binded(deviceid)})
 
 
 @app.route(ep_screen_binded['url'], methods=ep_screen_binded['methods'])
@@ -141,7 +141,7 @@ def screen_binded():
         return json_error('No header ' + X_SCREENID + ' provided')
 
     screenid = request.headers.get(X_SCREENID)
-    return json_response({BINDS_SCREEN_BINDED: is_screen_binded(screenid)})
+    return json_response({SCREEN_BINDED: is_screen_binded(screenid)})
 
 @app.route(ep_unbind['url'], methods=ep_unbind['methods'])
 def unbind():
@@ -208,9 +208,12 @@ def post_feedback():
     ch = check_data(CASHIERS_ID, RATES_RATING, TIMESTAMP)
     if ch:
         return json_error('No field "' + ch + '" provided')
-    cid = request.headers.get(CASHIERS_ID)
-    rating = request.headers.get(RATES_RATING)
-    timestamp = request.headers.get(TIMESTAMP)
+
+    data = json.loads(request.data)
+    cid = data[CASHIERS_ID]
+    rating = data[RATES_RATING]
+    timestamp = data[TIMESTAMP]
+    print(cid, rating, timestamp)
     cashierName = db[DB_CASHIERS].find_one({CASHIERS_ID: cid})[CASHIERS_NAME]
     userid = db[DB_CASHIERS].find_one({CASHIERS_ID: cid})[APPS_USERID]
 
