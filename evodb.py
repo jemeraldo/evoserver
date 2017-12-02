@@ -8,7 +8,11 @@ client = MongoClient(settings.MONGO_URI)
 db = client[EVODB_NAME]
 
 def set_token(userId, token):
-    res = db[DB_APPS].update_one({APPS_USERID: userId}, {'$set': {APPS_TOKEN: token}}, upsert=True)
+    item = db[DB_APPS].find_one({APPS_USERID: userId})
+    if item:
+        res = db[DB_APPS].update_one({APPS_USERID: userId}, {'$set': {APPS_TOKEN: token}}, upsert=True)
+    else:
+        res = db[DB_APPS].insert_one({APPS_USERID: userId, APPS_TOKEN: token})
     return res
 
 def app_install(apid, userId, timestamp, installed):
@@ -22,14 +26,14 @@ def app_install(apid, userId, timestamp, installed):
         return res
     return None
 
-def render_code():
+def render_code(k=8):
     binds = db[DB_BINDS]
     symbols = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     random.seed()
-    code = ''.join(random.choices(symbols, k=8))
+    code = ''.join(random.choices(symbols, k=k))
     item = binds.find_one({BINDS_CODE: code})
     while item is not None:
-        code =''.join(random.choices(symbols, k=8))
+        code =''.join(random.choices(symbols, k=k))
         item = binds.find_one({BINDS_CODE: code})
     return code
 

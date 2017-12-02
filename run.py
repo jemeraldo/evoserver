@@ -63,6 +63,8 @@ def token_event():
 
 @app.route(ep_binding['url'], methods=ep_binding['methods'])
 def initiate_binding():
+    print(request.headers)
+    print(request.data)
     ch = check_headers(X_EVOTOR_DEVICEID, X_EVOTOR_USERID)
     if ch is not None:
         return json_error('No header ' + ch + ' provided')
