@@ -44,6 +44,7 @@ def check_data(*datafields):
 @app.route(ep_install_event['url'], methods=ep_install_event['methods'])
 def install_event():
     data = json.loads(request.data)
+    print(data)
     userid = data['data'][APPS_USERID]
     installed = 1 if data['type'] == 'ApplicationInstalled' else 0
     timestamp = data[TIMESTAMP]
