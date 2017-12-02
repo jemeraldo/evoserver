@@ -285,5 +285,5 @@ if __name__ == '__main__':
     init_db()
     if do_test:
         run_tests()
-    app.run(host='0.0.0.0', port=server_port, debug=True)
+    app.run(host='0.0.0.0', port=server_port)
     tbot.updater.stop()
