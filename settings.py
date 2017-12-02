@@ -114,7 +114,6 @@ Settings = {
         'telegramCode': {
             'type': 'string',
             'unique': True,
-            'required': True,
             'default': ''
         },
         SETTINGS_TCHATID: {

@@ -256,6 +256,17 @@ def user_settings():
         if not item:
             return 'Can\'t find settings for ' + userid
         return render_template('settings.html', item=item)
+    if request.method == 'POST':
+        userid = request.args.get(APPS_USERID)
+        adType = request.form['adType']
+        feedbackType = request.form['feedbackType']
+        text = request.form['text']
+        adVideoUrl = request.form['adVideoUrl']
+
+        res = db[DB_SETTINGS].update_one({APPS_USERID: userid}, {'$set': {'adType': adType, 'feedbackType': feedbackType,\
+                                                                          'text': text, 'adVideoUrl': adVideoUrl}})
+        item = db[DB_SETTINGS].find_one({APPS_USERID: userid})
+        return render_template('settings.html', item=item, saved=True)
 
 def run_tests():
     add_new_bind('ev-99122331', '99-945749584759345')
@@ -287,3 +298,4 @@ if __name__ == '__main__':
         run_tests()
     app.run(host='0.0.0.0', port=server_port)
     tbot.updater.stop()
+

@@ -1,7 +1,20 @@
 <!doctype html>
 <title>User settings</title>
+{% if saved %} Settings saved <br>{% endif %}
 <form action="/user-settings?userId={{item['userId']}}" method="POST">
-    <input name=""
-    <input name="text" value="{{item['userId']}}">
+    <b>UserId:</b> {{item['userId']}}<br>
+    <b>Telegram code:</b> {{item['telegramCode']}}<br>
+    <b>Adv type: </b><br>
+    <input type="radio" name="adType" value="text" {% if item['adType'] == 'text' %} checked {% endif %}>Text<br>
+    <input type="radio" name="adType" value="video" {% if item['adType'] == 'video' %} checked {% endif %} >Video<br>
+    <input type="radio" name="adType" value="slideshow" {% if item['adType'] == 'slideshow' %} checked {% endif %}> Slideshow<br>
+    <b>Adv text:</b><br>
+    <input name="text" size=80 value="{{item['text']}}"><br>
+    <b>Adv Video Url:</b><br>
+    <input name="adVideoUrl" size=80 value="{{item['adVideoUrl']}}"><br>
+    <b>Feedback type: </b><br>
+    <input type="radio" name="feedbackType" value="none" {% if item['feedbackType'] == 'none' %} checked {% endif %}>None<br>
+    <input type="radio" name="feedbackType" value="smiles" {% if item['feedbackType'] == 'smiles' %} checked {% endif %} >Smiles<br>
+    <input type="radio" name="feedbackType" value="stars" {% if item['feedbackType'] == 'stars' %} checked {% endif %}> 5 Stars<br>
     <input type="submit" value="Save">
 </form>
