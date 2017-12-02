@@ -18,8 +18,11 @@ def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text='Hello! send /code <code> to subscribe for statistics')
 
 def register(bot, update):
-    code = re.match(r'/code ([0-9A-Z]+?$)', update.message.text)
-    print(code)
+    result = re.match(r'/code ([0-9A-Z]+$)', '/code XXX')
+    if len(result.groups()) < 1:
+        bot.send_message(chat_id=update.message.chat_id, text=r'Format: /code <code>')
+        return None
+    code = result.group(1)
     if evodb.set_user_telegram_chat_id(code, update.message.chat_id):
         bot.send_message(chat_id=update.message.chat_id, text='Registered.')
     else:
