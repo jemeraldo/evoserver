@@ -41,7 +41,24 @@ def check_data(*datafields):
             return df
     return None
 
+@app.route(ep_install_event['url'], methods=ep_install_event['methods'])
+def install_event():
+    data = json.loads(request.data)
+    userid = data['data'][APPS_USERID]
+    installed = 1 if data['type'] == 'ApplicationInstalled' else 0
+    timestamp = data[TIMESTAMP]
+    if app_install(None, userid, timestamp, installed):
+        return json_response({'status': 'ok'}, 200)
 
+    return json_error('error')
+
+@app.route(ep_token['url'], methods=ep_token['methods'])
+def token_event():
+    data = json.loads(request.data)
+    token = data[APPS_TOKEN]
+    userid = data[APPS_USERID]
+    set_token(userid, token)
+    return json_response({'status': 'ok'}, 200)
 
 @app.route(ep_binding['url'], methods=ep_binding['methods'])
 def initiate_binding():
@@ -198,6 +215,7 @@ def run_tests():
     set_bind(bc3, 'sc-123')
     unbind_screen(bc2)
     set_ip('ev-00112234', '192.168.14.19')
+    set_token('01-115411292457301', 'f46b89a5-8e80-4591-b0aa-94551790444b')
     print('Device ev-99122331 is binded: ', is_device_binded('ev-99122331'))
     print('Device ev-00011233 is binded: ', is_device_binded('ev-00011233'))
     print('Device ev-00112234 is binded: ', is_device_binded('ev-00112234'))

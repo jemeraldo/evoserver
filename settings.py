@@ -36,6 +36,10 @@ Apps = {
             'allowed': [0, 1],
             'default': 0,
             'required': True,
+        },
+        'token': {
+            'type': 'string',
+            'default': ''
         }
     }
 }

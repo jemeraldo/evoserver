@@ -7,6 +7,21 @@ from evotor_settings import *
 client = MongoClient(settings.MONGO_URI)
 db = client[EVODB_NAME]
 
+def set_token(userId, token):
+    res = db[DB_APPS].update_one({APPS_USERID: userId}, {'$set': {APPS_TOKEN: token}}, upsert=True)
+    return res
+
+def app_install(apid, userId, timestamp, installed):
+    apps = db[DB_APPS]
+    item = apps.find_one({APPS_USERID: userId})
+    if item:
+        res = apps.update_one({APPS_USERID: userId}, {'$set': {APPS_INSTALLED: installed, TIMESTAMP: timestamp}})
+        return res
+    else:
+        res = apps.insert_one({APPS_USERID: userId, APPS_INSTALLED: installed, TIMESTAMP: timestamp})
+        return res
+    return None
+
 def render_code():
     binds = db[DB_BINDS]
     symbols = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'

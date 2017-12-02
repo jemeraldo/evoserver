@@ -4,6 +4,8 @@
 X_EVOTOR_USERID = 'X-Evotor-User-Id'
 X_EVOTOR_DEVICEID = 'X-Evotor-Device-Id'
 X_SCREENID = 'X-Screen-Id'
+AUTH_TOKEN = 'Authorization'
+X_AUTH_TOKEN = 'X-Authorization'
 
 #DB
 EVODB_NAME = 'evodb'
@@ -17,6 +19,8 @@ DB_RECS = 'recs'
 DB_SLIDES = 'slides'
 
 APPS_USERID = 'userId'
+APPS_INSTALLED = 'installed'
+APPS_TOKEN = 'token'
 
 BINDS_DEVICEID = 'deviceid'
 BINDS_CODE = 'code'
@@ -43,6 +47,7 @@ ep_unbind = dict(url='/api/v1/unbind', methods=['POST'])
 
 ep_ip = dict(url='/api/v1/ip', methods=['GET', 'POST'])
 
-ep_event = dict(url='/api/v1/install-event', methods=['POST'])
+ep_install_event = dict(url='/api/v1/install-event', methods=['POST'])
+ep_token = dict(url='/api/v1/token', methods=['POST'])
 
 ep_feedback = dict(url='/api/v1/feedback', methods=['POST'])
