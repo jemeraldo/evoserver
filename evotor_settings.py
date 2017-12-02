@@ -2,7 +2,7 @@
 
 # Headers
 X_EVOTOR_USERID = 'X-Evotor-User-Id'
-X_EVOTOR_DEVICEID = 'X-Evotor-Device-Id'
+X_EVOTOR_DEVICEID = 'X-Evotor-Device-Uuid'
 X_SCREENID = 'X-Screen-Id'
 AUTH_TOKEN = 'Authorization'
 X_AUTH_TOKEN = 'X-Authorization'
