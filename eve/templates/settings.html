@@ -1,20 +1,19 @@
 <!doctype html>
-<title>User settings</title>
-{% if saved %} Settings saved <br>{% endif %}
+<title>Настройки пользователя</title>
+{% if saved %} Настройки сохранены <br>{% endif %}
 <form action="/user-settings?userId={{item['userId']}}" method="POST">
-    <b>UserId:</b> {{item['userId']}}<br>
-    <b>Telegram code:</b> {{item['telegramCode']}}<br>
-    <b>Adv type: </b><br>
-    <input type="radio" name="adType" value="text" {% if item['adType'] == 'text' %} checked {% endif %}>Text<br>
-    <input type="radio" name="adType" value="video" {% if item['adType'] == 'video' %} checked {% endif %} >Video<br>
-    <input type="radio" name="adType" value="slideshow" {% if item['adType'] == 'slideshow' %} checked {% endif %}> Slideshow<br>
-    <b>Adv text:</b><br>
+    <b>Код для отчётов в Telegram:</b> {{item['telegramCode']}}<br>
+    <b>Тип рекламы при ожидании: </b><br>
+    <input type="radio" name="adType" value="text" {% if item['adType'] == 'text' %} checked {% endif %}>Текст<br>
+    <input type="radio" name="adType" value="video" {% if item['adType'] == 'video' %} checked {% endif %} >Видео<br>
+    <input type="radio" name="adType" value="slideshow" {% if item['adType'] == 'slideshow' %} checked {% endif %}> Показ слайдов<br>
+    <b>Простой рекламный текст:</b><br>
     <input name="text" size=80 value="{{item['text']}}"><br>
-    <b>Adv Video Url:</b><br>
+    <b>Видео URL:</b><br>
     <input name="adVideoUrl" size=80 value="{{item['adVideoUrl']}}"><br>
-    <b>Feedback type: </b><br>
-    <input type="radio" name="feedbackType" value="none" {% if item['feedbackType'] == 'none' %} checked {% endif %}>None<br>
-    <input type="radio" name="feedbackType" value="smiles" {% if item['feedbackType'] == 'smiles' %} checked {% endif %} >Smiles<br>
-    <input type="radio" name="feedbackType" value="stars" {% if item['feedbackType'] == 'stars' %} checked {% endif %}> 5 Stars<br>
-    <input type="submit" value="Save">
+    <b>Настройка отзывов: </b><br>
+    <input type="radio" name="feedbackType" value="none" {% if item['feedbackType'] == 'none' %} checked {% endif %}>Выключены<br>
+    <input type="radio" name="feedbackType" value="smiles" {% if item['feedbackType'] == 'smiles' %} checked {% endif %} >Смайлы<br>
+    <input type="radio" name="feedbackType" value="stars" {% if item['feedbackType'] == 'stars' %} checked {% endif %}> 5 звёзд<br>
+    <input type="submit" value="Сохранить">
 </form>

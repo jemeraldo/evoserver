@@ -14,12 +14,20 @@ def set_user_telegram_chat_id(tcode, chat_id):
     res = db[DB_SETTINGS].update_one({SETTINGS_TCODE: tcode}, {'$set': {SETTINGS_TCHATID: chat_id}}, upsert=True)
     return res
 
+def init_settings(userId):
+    code = render_code(8)
+    while db[DB_SETTINGS].find_one({SETTINGS_TCODE: code}):
+        code = render_code(8)
+
+    return db[DB_SETTINGS].insert_one({APPS_USERID: userId, SETTINGS_TCODE: code})
+
 def set_token(userId, token):
     item = db[DB_APPS].find_one({APPS_USERID: userId})
     if item:
         res = db[DB_APPS].update_one({APPS_USERID: userId}, {'$set': {APPS_TOKEN: token}}, upsert=True)
     else:
-        res = db[DB_APPS].insert_one({APPS_USERID: userId, APPS_TOKEN: token})
+        db[DB_APPS].insert_one({APPS_USERID: userId, APPS_TOKEN: token})
+        res = init_settings(userId)
     return res
 
 def app_install(apid, userId, timestamp, installed):
