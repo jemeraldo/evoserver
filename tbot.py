@@ -18,7 +18,7 @@ def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text='Hello! send /code <code> to subscribe for statistics')
 
 def register(bot, update):
-    result = re.match(r'/code ([0-9A-Z]+$)', '/code XXX')
+    result = re.match(r'/code ([0-9A-Z]+$)', update.message.text)
     if len(result.groups()) < 1:
         bot.send_message(chat_id=update.message.chat_id, text=r'Format: /code <code>')
         return None

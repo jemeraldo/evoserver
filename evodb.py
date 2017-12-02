@@ -8,7 +8,6 @@ client = MongoClient(settings.MONGO_URI)
 db = client[EVODB_NAME]
 
 def set_user_telegram_chat_id(tcode, chat_id):
-    print(tcode)
     item = db[DB_SETTINGS].find_one({SETTINGS_TCODE: tcode})
     if not item:
         return None
