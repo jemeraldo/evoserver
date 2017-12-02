@@ -250,6 +250,16 @@ Server: Eve/0.7.4 Werkzeug/0.11.15 Python/3.6.3
 ## Endpoint /api/v1/feedback
 Отправка обратной связи менеджеру магазина
 
+### GET /api/v1/screen-settings
+
+#### headers
+
+X-Screen-Id: string
+
+#### Response
+
+json object
+
 ### POST /api/v1/feedback
 
 #### headers

@@ -7,6 +7,7 @@ from pymongo import MongoClient, errors as mongo_errors
 from evotor_settings import *
 from evodb import *
 import tbot
+from bson.json_util import dumps
 
 debug_mode = True
 do_test = True
@@ -242,7 +243,7 @@ def screen_settings():
     if not item:
         json_error('No settings for screen ' + screenid)
 
-    return json_response(item)
+    return dumps(item)
 
 
 def run_tests():
