@@ -16,7 +16,7 @@ def start(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text='Hello! send /code <code> to subscribe for statistics')
 
 def register(bot, update):
-    bot.send_message(chat_id=update.message.chat_id, text='Hello! send /code <code> to subscribe for statistics')
+    bot.send_message(chat_id=update.message.chat_id, text=update.message.text)
 
 def send_feedback(tuid, cashierName, rating):
     bot.sendMessage(tuid, 'Продавец %s только что получил оценку: %s' % (cashierName, rating))
