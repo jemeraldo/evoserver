@@ -44,7 +44,7 @@ def render_code(k=8):
         item = binds.find_one({BINDS_CODE: code})
     return code
 
-def add_new_bind(deviceid, ip=''):
+def add_new_bind(deviceid, userid, ip=''):
     '''Returns inserted or existing item'''
     binds = db[DB_BINDS]
     item = binds.find_one({BINDS_DEVICEID: deviceid})
@@ -52,7 +52,7 @@ def add_new_bind(deviceid, ip=''):
         return item
     else:
         code = render_code()
-        result = binds.insert_one({BINDS_DEVICEID: deviceid, BINDS_CODE: code, BINDS_IP: ip})
+        result = binds.insert_one({BINDS_DEVICEID: deviceid, BINDS_CODE: code, BINDS_IP: ip, APPS_USERID: userid})
         return result
 
 
@@ -64,7 +64,7 @@ def set_bind(code, screenid):
 
 def unbind_screen(deviceid):
     binds = db[DB_BINDS]
-    binds.update_one({BINDS_DEVICEID: deviceid}, {'$set':  {BINDS_SCREENID: ''}})
+    res = binds.delete_one({BINDS_DEVICEID: deviceid})
     return binds.find_one({BINDS_DEVICEID: deviceid})
 
 def is_device_binded(deviceid):

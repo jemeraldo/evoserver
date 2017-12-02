@@ -53,3 +53,5 @@ ep_install_event = dict(url='/api/v1/install-event', methods=['POST'])
 ep_token = dict(url='/api/v1/token', methods=['POST'])
 
 ep_feedback = dict(url='/api/v1/feedback', methods=['POST'])
+ep_screen_settings = dict(url='/api/v1/screen-settings', methods=['GET'])
+

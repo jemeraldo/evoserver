@@ -92,7 +92,7 @@ def initiate_binding():
     #    return json_error('No such userid in db')
 
     try:
-        result = add_new_bind(deviceid)
+        result = add_new_bind(deviceid, userid)
         return json_response({BINDS_CODE: result[BINDS_CODE]}, 200)
     except Exception as e:
         return json_error('Error while adding new bind')
@@ -160,7 +160,7 @@ def unbind():
         return json_error('No such bind in database')
     try:
         unbind_screen(deviceid)
-        return json_response({BINDS_SCREEN_BINDED: False})
+        return json_response({SCREEN_BINDED: False})
     except Exception as e:
         return json_error('Error while unbinding')
 
@@ -231,12 +231,29 @@ def post_feedback():
 
     return json_response({'status': 'ok'})
 
+@app.route(ep_screen_settings['url'], methods=ep_screen_settings['methods'])
+def screen_settings():
+    print_debug_info()
+    ch = check_headers(X_SCREENID)
+    if ch:
+        return json_error('No header ' + X_SCREENID + ' provided')
+    screenid = request.headers.get(X_SCREENID)
+    item = db[DB_BINDS].find_one({BINDS_SCREENID: screenid})
+    if not item:
+        return json_error('No such screen in db')
+
+    userid = item[APPS_USERID]
+    item = db[DB_SETTINGS].find_one({APPS_USERID: userid})
+    if not item:
+        json_error('No settings for screen ' + screenid)
+
+    return json_response(item)
 
 
 def run_tests():
-    add_new_bind('ev-99122331')
-    add_new_bind('ev-00011233')
-    add_new_bind('ev-00112234')
+    add_new_bind('ev-99122331', '99-945749584759345')
+    add_new_bind('ev-00011233', '99-945749584759315')
+    add_new_bind('ev-00112234', '99-945749184759315')
     bc2 = db[DB_BINDS].find_one({BINDS_DEVICEID: 'ev-00011233'})[BINDS_CODE]
     bc3 = db[DB_BINDS].find_one({BINDS_DEVICEID: 'ev-00112234'})[BINDS_CODE]
     set_bind(bc2, 'sc-111')
