@@ -37,5 +37,5 @@ register_handler = CommandHandler('code', register)
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(register_handler)
 
-updater.start_polling()
+#updater.start_polling()
 
