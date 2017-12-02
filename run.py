@@ -1,12 +1,12 @@
 # coding: utf8
-
 import json, random, os, sys
-import settings, tbot
+import settings
 from eve import Eve
 from flask import request
 from pymongo import MongoClient, errors as mongo_errors
 from evotor_settings import *
 from evodb import *
+import tbot
 
 debug_mode = True
 do_test = True
