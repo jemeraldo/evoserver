@@ -28,7 +28,6 @@ def register(bot, update):
     else:
         bot.send_message(chat_id=update.message.chat_id, text='User has not finded.')
 
-
 def send_feedback(chat_id, cashierName, rating):
     bot.sendMessage(chat_id, 'Продавец %s только что получил оценку: %s' % (cashierName, rating))
 

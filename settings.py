@@ -94,6 +94,10 @@ Settings = {
             'unique': True,
             'required': True,
             'default': ''
+        },
+        SETTINGS_TCHATID: {
+            'type': 'string',
+            'default': ''
         }
     }
 }
