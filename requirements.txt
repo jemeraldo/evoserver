@@ -6,7 +6,7 @@ flake8==3.5.0
 Flask==0.12
 Flask-PyMongo==0.5.1
 future==0.16.0
-httpie==0.9.9
+httpie==1.0.3
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
